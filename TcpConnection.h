@@ -5,15 +5,15 @@
 #define CONNECTION_H
 
 #include <QObject>
-#include <QtNetwork/QTcpSocket>
 #include <QString>
+#include <QtNetwork/QTcpSocket>
 
 class TcpConnection : public QObject
 {
     Q_OBJECT
 public:
-    explicit TcpConnection(QObject *parent = nullptr);    ///< for client usage
-    TcpConnection(QObject *parent, QTcpSocket *socket);   ///< for server usage
+    explicit TcpConnection(QObject *parent = nullptr);  ///< for client usage
+    TcpConnection(QObject *parent, QTcpSocket *socket); ///< for server usage
 
     const bool &isValid();
 

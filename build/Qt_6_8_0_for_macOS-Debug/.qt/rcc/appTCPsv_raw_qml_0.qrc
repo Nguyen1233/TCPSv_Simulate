@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/TCPsv/">
+    <file alias="main.qml">/Users/pdnguyen/TCPSv_Simulate/main.qml</file>
+  </qresource>
+</RCC>
+

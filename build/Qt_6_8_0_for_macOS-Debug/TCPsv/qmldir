@@ -1,0 +1,4 @@
+module TCPsv
+typeinfo appTCPsv.qmltypes
+prefer :/TCPsv/
+

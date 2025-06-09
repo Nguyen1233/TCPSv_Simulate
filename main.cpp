@@ -1,15 +1,11 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include "TcpServer.h"
 #include <QQmlContext>
+#include "TcpServer.h"
 
 int main(int argc, char *argv[])
 {
-    // qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
-
     QGuiApplication app(argc, argv);
-    // NetSndRcv m_NetSndRcv;
-
 
     QQmlApplicationEngine engine;
     TcpServer tcpServer;

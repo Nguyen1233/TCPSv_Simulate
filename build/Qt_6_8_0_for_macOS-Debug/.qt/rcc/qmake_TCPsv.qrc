@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/TCPsv">
+    <file alias="qmldir">/Users/pdnguyen/TCPSv_Simulate/build/Qt_6_8_0_for_macOS-Debug/TCPsv/qmldir</file>
+  </qresource>
+</RCC>
+
