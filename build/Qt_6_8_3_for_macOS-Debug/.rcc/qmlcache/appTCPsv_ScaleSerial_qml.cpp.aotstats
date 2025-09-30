@@ -1,0 +1,12 @@
+[
+    {
+        "moduleFiles": [
+            {
+                "entries": [
+                ],
+                "filepath": "/Users/pdnguyen/work/github/TCPSv_Simulate/ScaleSerial.qml"
+            }
+        ],
+        "moduleId": "TCPsv(appTCPsv)"
+    }
+]

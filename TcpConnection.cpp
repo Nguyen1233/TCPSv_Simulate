@@ -69,7 +69,6 @@ void TcpConnection::sendMessage(QString message)
     dataStream << (quint16) 0;    // placeholder for blocksize
     dataStream << message;        // append the message
     dataStream.device()->seek(0); // go back to beginning
-        // overwrite placeholder with actual blocksize
     dataStream << (quint16) (data.size() - sizeof(quint16));
 
     m_socket->write(data);

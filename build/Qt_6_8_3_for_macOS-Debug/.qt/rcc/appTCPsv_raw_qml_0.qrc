@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="/TCPsv/">
+    <file alias="main.qml">/Users/pdnguyen/work/github/TCPSv_Simulate/main.qml</file>
+    <file alias="ScaleSerial.qml">/Users/pdnguyen/work/github/TCPSv_Simulate/ScaleSerial.qml</file>
+  </qresource>
+</RCC>
+
