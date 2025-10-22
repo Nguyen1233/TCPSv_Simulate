@@ -87,8 +87,26 @@
             ],
             "slots": [
                 {
-                    "access": "private",
+                    "access": "public",
                     "index": 5,
+                    "name": "initializeSlot",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "frame",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 6,
+                    "name": "sendData",
+                    "returnType": "void"
+                },
+                {
+                    "access": "private",
+                    "index": 7,
                     "name": "handleReadyRead",
                     "returnType": "void"
                 },
@@ -100,7 +118,7 @@
                             "type": "QSerialPort::SerialPortError"
                         }
                     ],
-                    "index": 6,
+                    "index": 8,
                     "name": "handleError",
                     "returnType": "void"
                 }

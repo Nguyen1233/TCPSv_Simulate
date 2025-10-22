@@ -5,10 +5,12 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QTimer>
+#include <QThread>
 
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include "ScaleInterface232.h"
+#include "ClientWorker.h"
 // #include <QObject>
 #include <QQmlEngine>
 
@@ -41,6 +43,9 @@ signals:
 private:
     QTcpServer *server;
     QList<QTcpSocket *> clients;
+    // per-client worker threads
+    QList<QThread *> clientThreads;
+    QList<ClientWorker *> clientWorkers;
     QTimer *sendTimer;      // Timer for infinite sending
     QString sendDataString; // Data to send repeatedly
     // QTimer *responseSending;
@@ -51,6 +56,7 @@ private:
 
     QSerialPort *serialPort;
     QPointer<ScaleInterface232> m_scales232[2] = {nullptr, nullptr};
+    QThread *m_scaleThreads[2] = {nullptr, nullptr};
 
     void sendZeroData(int u);
     void hookSignals(int idx);

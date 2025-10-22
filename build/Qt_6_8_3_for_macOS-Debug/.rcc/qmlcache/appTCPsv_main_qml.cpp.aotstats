@@ -6,7 +6,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 21,
-                        "durationMicroseconds": 750,
+                        "durationMicroseconds": 1427,
                         "errorMessage": "",
                         "functionName": "theme",
                         "line": 14
@@ -14,7 +14,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 22,
-                        "durationMicroseconds": 79,
+                        "durationMicroseconds": 81,
                         "errorMessage": "",
                         "functionName": "accent",
                         "line": 15
@@ -22,7 +22,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 28,
-                        "durationMicroseconds": 203,
+                        "durationMicroseconds": 239,
                         "errorMessage": "Cannot access value for name tcpServer",
                         "functionName": "onCompleted",
                         "line": 17
@@ -30,7 +30,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 23,
-                        "durationMicroseconds": 45,
+                        "durationMicroseconds": 48,
                         "errorMessage": "",
                         "functionName": "fill",
                         "line": 20
@@ -38,7 +38,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 27,
-                        "durationMicroseconds": 37,
+                        "durationMicroseconds": 77,
                         "errorMessage": "",
                         "functionName": "fill",
                         "line": 24
@@ -46,7 +46,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 37,
-                        "durationMicroseconds": 70,
+                        "durationMicroseconds": 104,
                         "errorMessage": "",
                         "functionName": "height",
                         "line": 51
@@ -54,7 +54,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 47,
-                        "durationMicroseconds": 65,
+                        "durationMicroseconds": 73,
                         "errorMessage": "",
                         "functionName": "alignment",
                         "line": 55
@@ -62,7 +62,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 43,
-                        "durationMicroseconds": 52,
+                        "durationMicroseconds": 63,
                         "errorMessage": "",
                         "functionName": "fillMode",
                         "line": 62
@@ -70,7 +70,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 47,
-                        "durationMicroseconds": 42,
+                        "durationMicroseconds": 43,
                         "errorMessage": "",
                         "functionName": "fill",
                         "line": 59
@@ -78,7 +78,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 41,
-                        "durationMicroseconds": 53,
+                        "durationMicroseconds": 57,
                         "errorMessage": "",
                         "functionName": "source",
                         "line": 68
@@ -86,7 +86,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 47,
-                        "durationMicroseconds": 58,
+                        "durationMicroseconds": 56,
                         "errorMessage": "",
                         "functionName": "fill",
                         "line": 67
@@ -94,7 +94,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 44,
-                        "durationMicroseconds": 61,
+                        "durationMicroseconds": 64,
                         "errorMessage": "",
                         "functionName": "width",
                         "line": 70
@@ -102,7 +102,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 45,
-                        "durationMicroseconds": 61,
+                        "durationMicroseconds": 57,
                         "errorMessage": "",
                         "functionName": "height",
                         "line": 71
@@ -110,7 +110,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 45,
-                        "durationMicroseconds": 356,
+                        "durationMicroseconds": 352,
                         "errorMessage": "",
                         "functionName": "radius",
                         "line": 72
@@ -118,7 +118,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 43,
-                        "durationMicroseconds": 76,
+                        "durationMicroseconds": 77,
                         "errorMessage": "",
                         "functionName": "interval",
                         "line": 79
@@ -126,7 +126,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 46,
-                        "durationMicroseconds": 346,
+                        "durationMicroseconds": 367,
                         "errorMessage": "",
                         "functionName": "onTriggered",
                         "line": 83
@@ -134,7 +134,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 43,
-                        "durationMicroseconds": 59,
+                        "durationMicroseconds": 64,
                         "errorMessage": "",
                         "functionName": "alignment",
                         "line": 94
@@ -142,7 +142,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 40,
-                        "durationMicroseconds": 290,
+                        "durationMicroseconds": 315,
                         "errorMessage": "Cannot access value for name tcpServer",
                         "functionName": "onClicked",
                         "line": 101
@@ -150,7 +150,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 40,
-                        "durationMicroseconds": 218,
+                        "durationMicroseconds": 222,
                         "errorMessage": "Cannot access value for name tcpServer",
                         "functionName": "onClicked",
                         "line": 113
@@ -158,7 +158,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 40,
-                        "durationMicroseconds": 206,
+                        "durationMicroseconds": 207,
                         "errorMessage": "Cannot access value for name tcpServer",
                         "functionName": "onClicked",
                         "line": 121
@@ -166,7 +166,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 40,
-                        "durationMicroseconds": 198,
+                        "durationMicroseconds": 200,
                         "errorMessage": "Cannot access value for name tcpServer",
                         "functionName": "onClicked",
                         "line": 129
@@ -174,7 +174,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 39,
-                        "durationMicroseconds": 41,
+                        "durationMicroseconds": 42,
                         "errorMessage": "",
                         "functionName": "fill",
                         "line": 148
@@ -182,7 +182,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 39,
-                        "durationMicroseconds": 67,
+                        "durationMicroseconds": 66,
                         "errorMessage": "",
                         "functionName": "wrapMode",
                         "line": 155
@@ -190,7 +190,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 43,
-                        "durationMicroseconds": 84,
+                        "durationMicroseconds": 48,
                         "errorMessage": "",
                         "functionName": "fill",
                         "line": 153
@@ -198,7 +198,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 39,
-                        "durationMicroseconds": 46,
+                        "durationMicroseconds": 36,
                         "errorMessage": "",
                         "functionName": "fill",
                         "line": 170
@@ -206,7 +206,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 44,
-                        "durationMicroseconds": 293,
+                        "durationMicroseconds": 256,
                         "errorMessage": "Cannot access value for name tcpServer",
                         "functionName": "onClicked",
                         "line": 177
@@ -214,7 +214,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 44,
-                        "durationMicroseconds": 267,
+                        "durationMicroseconds": 243,
                         "errorMessage": "Cannot access value for name tcpServer",
                         "functionName": "onClicked",
                         "line": 206
@@ -222,7 +222,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 44,
-                        "durationMicroseconds": 249,
+                        "durationMicroseconds": 242,
                         "errorMessage": "Cannot access value for name tcpServer",
                         "functionName": "onClicked",
                         "line": 224
@@ -230,7 +230,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 44,
-                        "durationMicroseconds": 241,
+                        "durationMicroseconds": 237,
                         "errorMessage": "Cannot access value for name tcpServer",
                         "functionName": "onClicked",
                         "line": 254
@@ -238,7 +238,7 @@
                     {
                         "codegenSuccessfull": false,
                         "column": 21,
-                        "durationMicroseconds": 35,
+                        "durationMicroseconds": 36,
                         "errorMessage": "Cannot access value for name tcpServer",
                         "functionName": "target",
                         "line": 273
@@ -254,7 +254,7 @@
                     {
                         "codegenSuccessfull": true,
                         "column": 13,
-                        "durationMicroseconds": 252,
+                        "durationMicroseconds": 240,
                         "errorMessage": "",
                         "functionName": "onClientDisconnected",
                         "line": 279

@@ -274,6 +274,8 @@ QString ScaleInterface232::serialStatus() const
 
 void ScaleInterface232::sendData(const QString &frame)
 {
+    if (!serialPort)
+        return;
     QByteArray data = frame.toLocal8Bit();
     serialPort->write(data);
     serialPort->flush();

@@ -51,6 +51,9 @@ static constexpr auto qt_meta_stringdata_ZN17ScaleInterface232E = QtMocHelpers::
     "connectionStatusChanged",
     "connected",
     "statusChanged",
+    "initializeSlot",
+    "sendData",
+    "frame",
     "handleReadyRead",
     "handleError",
     "QSerialPort::SerialPortError",
@@ -66,23 +69,25 @@ Q_CONSTINIT static const uint qt_meta_data_ZN17ScaleInterface232E[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
-       1,   77, // properties
+       9,   14, // methods
+       1,   93, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
        5,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    2,   56,    2, 0x06,    2 /* Public */,
-       5,    1,   61,    2, 0x06,    5 /* Public */,
-       7,    2,   64,    2, 0x06,    7 /* Public */,
-      11,    1,   69,    2, 0x06,   10 /* Public */,
-      13,    0,   72,    2, 0x06,   12 /* Public */,
+       1,    2,   68,    2, 0x06,    2 /* Public */,
+       5,    1,   73,    2, 0x06,    5 /* Public */,
+       7,    2,   76,    2, 0x06,    7 /* Public */,
+      11,    1,   81,    2, 0x06,   10 /* Public */,
+      13,    0,   84,    2, 0x06,   12 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-      14,    0,   73,    2, 0x08,   13 /* Private */,
-      15,    1,   74,    2, 0x08,   14 /* Private */,
+      14,    0,   85,    2, 0x0a,   13 /* Public */,
+      15,    1,   86,    2, 0x0a,   14 /* Public */,
+      17,    0,   89,    2, 0x08,   16 /* Private */,
+      18,    1,   90,    2, 0x08,   17 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Double, QMetaType::QString,    3,    4,
@@ -93,10 +98,12 @@ Q_CONSTINIT static const uint qt_meta_data_ZN17ScaleInterface232E[] = {
 
  // slots: parameters
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 16,    9,
+    QMetaType::Void, QMetaType::QString,   16,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 19,    9,
 
  // properties: name, type, flags, notifyId, revision
-      17, QMetaType::QString, 0x00015001, uint(4), 0,
+      20, QMetaType::QString, 0x00015001, uint(4), 0,
 
        0        // eod
 };
@@ -128,6 +135,11 @@ Q_CONSTINIT const QMetaObject ScaleInterface232::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<bool, std::false_type>,
         // method 'statusChanged'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'initializeSlot'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'sendData'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         // method 'handleReadyRead'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'handleError'
@@ -147,8 +159,10 @@ void ScaleInterface232::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
         case 2: _t->errorOccurred((*reinterpret_cast< std::add_pointer_t<ScaleError>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
         case 3: _t->connectionStatusChanged((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
         case 4: _t->statusChanged(); break;
-        case 5: _t->handleReadyRead(); break;
-        case 6: _t->handleError((*reinterpret_cast< std::add_pointer_t<QSerialPort::SerialPortError>>(_a[1]))); break;
+        case 5: _t->initializeSlot(); break;
+        case 6: _t->sendData((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 7: _t->handleReadyRead(); break;
+        case 8: _t->handleError((*reinterpret_cast< std::add_pointer_t<QSerialPort::SerialPortError>>(_a[1]))); break;
         default: ;
         }
     }
@@ -218,14 +232,14 @@ int ScaleInterface232::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 9;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 9)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 7;
+        _id -= 9;
     }
     if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
             || _c == QMetaObject::ResetProperty || _c == QMetaObject::BindableProperty

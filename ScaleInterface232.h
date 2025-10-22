@@ -15,6 +15,7 @@ public:
     ~ScaleInterface232();
 
     void initialize();
+    Q_SLOT void initializeSlot() { initialize(); }
     bool connect();
     void disconnect();
     bool isConnected() const;
@@ -31,7 +32,7 @@ public:
     bool requestContinuousData();
 
     QString serialStatus() const;
-    void sendData(const QString &frame);
+    Q_SLOT void sendData(const QString &frame);
 
 signals:
     void weightReceived(double weight, const QString &unit);

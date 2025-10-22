@@ -1,5 +1,6 @@
 #include "TcpServer.h"
 #include <QDebug>
+#include <QThread>
 
 TcpServer::TcpServer(QObject *parent)
     : QObject(parent)
@@ -37,10 +38,19 @@ void TcpServer::stopServer()
 void TcpServer::sendData(const QString &data)
 {
     QByteArray byteArray = data.toUtf8();
-    for (QTcpSocket *client : qAsConst(clients)) {
-        if (client->state() == QTcpSocket::ConnectedState) {
-            client->write(byteArray);
-            client->flush();
+    // Send to each client via its worker (if available). This ensures writes happen in the
+    // dedicated client thread to avoid cross-thread socket access and contention.
+    for (int i = 0; i < clientWorkers.size(); ++i) {
+        ClientWorker *w = clientWorkers.value(i, nullptr);
+        if (w) {
+            QMetaObject::invokeMethod(w, "sendData", Qt::QueuedConnection, Q_ARG(QByteArray, byteArray));
+        } else {
+            // fallback to raw socket if no worker
+            QTcpSocket *client = clients.value(i, nullptr);
+            if (client && client->state() == QTcpSocket::ConnectedState) {
+                client->write(byteArray);
+                client->flush();
+            }
         }
     }
     qDebug() << "Sent data to clients:" << data;
@@ -78,17 +88,30 @@ void TcpServer::sendRespWeightTest()
 
 void TcpServer::applySerialParams(const QString &portName, int idx)
 {
-    m_scales232[idx] = new ScaleInterface232(portName, this);
-    m_scales232[idx]->applySerialParams(QSerialPort::Baud9600,
-                                        QSerialPort::Data7,
-                                        QSerialPort::EvenParity,
-                                        QSerialPort::OneStop);
+    // Create scale and its dedicated thread so serial I/O runs separately
+    ScaleInterface232 *scale = new ScaleInterface232(portName);
+    QThread *t = new QThread(this);
+    scale->moveToThread(t);
+
+    // Apply params on the object's thread using queued invocation
+    QMetaObject::invokeMethod(scale, [scale]() {
+        scale->applySerialParams(QSerialPort::Baud9600,
+                                 QSerialPort::Data7,
+                                 QSerialPort::EvenParity,
+                                 QSerialPort::OneStop);
+    }, Qt::QueuedConnection);
+
+    // Hook signals (note: signals are thread-safe across threads)
     hookSignals(idx);
-    const bool ok = m_scales232[idx]->connect();
-    if (ok) {
-        //read continuos if need
-        qDebug() << "===========connected " << idx;
-    }
+
+    // Store pointer and start thread
+    m_scales232[idx] = scale;
+    t->start();
+
+    // Initialize (attempt open) inside the scale thread
+    QMetaObject::invokeMethod(scale, "initializeSlot", Qt::QueuedConnection);
+
+    qDebug() << "Scale thread started for idx" << idx << "port" << portName;
 }
 
 void TcpServer::sendFrameFake1(int ms, const QString &w)
@@ -130,10 +153,12 @@ void TcpServer::sendZeroData(int u)
     QByteArray frame;
     if (u == 0) {
         frame = "ST,+0 g\r\n";
-        m_scales232[0]->sendData(frame);
+        if (m_scales232[0])
+            QMetaObject::invokeMethod(m_scales232[0], "sendData", Qt::QueuedConnection, Q_ARG(QString, QString::fromUtf8(frame)));
     } else {
         frame = "020202+000.220ST,GS,+0 kg\r\n";
-        m_scales232[1]->sendData(frame);
+        if (m_scales232[1])
+            QMetaObject::invokeMethod(m_scales232[1], "sendData", Qt::QueuedConnection, Q_ARG(QString, QString::fromUtf8(frame)));
     }
 
     qDebug() << "[FakeScale1] Sent:" << frame;
@@ -157,11 +182,19 @@ void TcpServer::hookSignals(int idx)
                      [this, idx](double w, const QString &u) {
 
                      });
+    // Forward raw scale data to connected TCP clients (append CRLF to restore framing)
+    QObject::connect(s, &ScaleInterface232::dataReceived, this, [this](const QString &raw) {
+        const QString framed = raw + "\r\n";
+        // sendData will route the bytes to each client via their worker threads
+        sendData(framed);
+        qDebug() << "Forwarded scale data to clients:" << framed;
+    }, Qt::QueuedConnection);
     timer1->setInterval(400);
     connect(timer1, &QTimer::timeout, this, [this]() {
         // frame = "ST,+2000 g\r\n"; // chuỗi mô phỏng cân
         // m_scales232[]->write(frame);
-        m_scales232[0]->sendData(frame);
+        if (m_scales232[0])
+            QMetaObject::invokeMethod(m_scales232[0], "sendData", Qt::QueuedConnection, Q_ARG(QString, QString::fromUtf8(frame)));
         // serialPort->flush();
         qDebug() << "[FakeScale1] Sent:" << frame;
     });
@@ -171,7 +204,8 @@ void TcpServer::hookSignals(int idx)
         // frame1 = "020202+000.220ST,GS,+5 kg\r\n"; // chuỗi mô phỏng cân
         // serialPort->write(frame);
         // serialPort->flush();
-        m_scales232[1]->sendData(frame1);
+        if (m_scales232[1])
+            QMetaObject::invokeMethod(m_scales232[1], "sendData", Qt::QueuedConnection, Q_ARG(QString, QString::fromUtf8(frame1)));
         // serialPort->flush();
         qDebug() << "[FakeScale2] Sent:" << frame1;
     });
@@ -185,31 +219,120 @@ void TcpServer::sendDataTimerTriggered()
 void TcpServer::onNewConnection()
 {
     QTcpSocket *client = server->nextPendingConnection();
-    clients.append(client);
+    if (!client)
+        return;
 
-    connect(client, &QTcpSocket::readyRead, this, &TcpServer::onReadyRead);
-    connect(client, &QTcpSocket::disconnected, this, &TcpServer::onClientDisconnected);
+    // Create worker and thread for this client
+    QThread *thread = new QThread(this);
+    ClientWorker *worker = new ClientWorker(client);
+
+    // Move socket to the new thread so its I/O runs there
+    client->moveToThread(thread);
+    worker->moveToThread(thread);
+
+    // When thread finishes, delete worker
+    connect(thread, &QThread::finished, worker, &QObject::deleteLater);
+
+    // Connect socket signals to worker slots (queued) so they run in worker thread
+    connect(client, &QTcpSocket::readyRead, worker, &ClientWorker::onReadyRead, Qt::QueuedConnection);
+    connect(client, &QTcpSocket::disconnected, worker, &ClientWorker::onDisconnected, Qt::QueuedConnection);
+
+    // Hook worker signals back to server (queued) and forward actual data
+    connect(worker, &ClientWorker::dataReceived, this, [this](const QString &d) {
+        emit dataReceived(d);
+        qDebug() << "Forwarded data from worker:" << d;
+    }, Qt::QueuedConnection);
+
+    connect(worker, &ClientWorker::disconnected, this, &TcpServer::onClientDisconnected, Qt::QueuedConnection);
+    connect(worker, &ClientWorker::disconnected, thread, &QThread::quit);
+    connect(worker, &ClientWorker::finished, thread, &QThread::quit);
+
+    // Start the thread
+    thread->start();
+
+    // Keep bookkeeping
+    clients.append(client);
+    clientThreads.append(thread);
+    clientWorkers.append(worker);
 
     emit clientConnected(client->peerAddress().toString(), client->peerPort());
-    qDebug() << "New client connected.";
+    qDebug() << "New client connected and worker thread started.";
 }
 
 void TcpServer::onReadyRead()
 {
+    // This slot can be invoked either directly from a QTcpSocket signal or from
+    // a ClientWorker::dataReceived signal. Handle both cases.
     QTcpSocket *client = qobject_cast<QTcpSocket *>(sender());
     if (client) {
         QString data = QString::fromUtf8(client->readAll());
         qDebug() << data;
         emit dataReceived(data);
+        return;
+    }
+
+    // If called via worker signal, sender is the ClientWorker and the
+    // first argument is the data; Qt queued connection will package it so
+    // we can retrieve it via QMetaObject invocation context. Simpler: cast
+    // sender to ClientWorker and rely on its signal to carry the data.
+    ClientWorker *worker = qobject_cast<ClientWorker *>(sender());
+    if (worker) {
+        // Worker already emitted dataReceived(QString) which was connected here,
+        // but because we connected it with this slot signature we receive a call
+        // with no explicit parameter. Instead we rely on the signal payload via
+        // QObject::sender() is not giving us the parameter. To keep behavior,
+        // change the connect in onNewConnection to bind directly to a lambda
+        // — but to keep patch minimal, we will not duplicate logic here.
+        // As a fallback, just emit that data arrived (worker already emitted it
+        // so the server's higher-level listeners will still receive it). Log only.
+        qDebug() << "Data received from worker";
     }
 }
 
 void TcpServer::onClientDisconnected()
 {
+    // Try to handle both direct socket sender and worker sender
     QTcpSocket *client = qobject_cast<QTcpSocket *>(sender());
     if (client) {
-        clients.removeOne(client);
+        int idx = clients.indexOf(client);
+        if (idx >= 0) {
+            clients.removeAt(idx);
+            // stop and cleanup thread/worker
+            ClientWorker *w = clientWorkers.value(idx, nullptr);
+            QThread *t = clientThreads.value(idx, nullptr);
+            if (w) {
+                QMetaObject::invokeMethod(w, "shutdown", Qt::QueuedConnection);
+            }
+            if (t) {
+                t->quit();
+                t->wait(100);
+                t->deleteLater();
+            }
+            clientWorkers.removeAt(idx);
+            clientThreads.removeAt(idx);
+        }
         client->deleteLater();
+        emit clientDisconnected();
+        return;
+    }
+
+    ClientWorker *worker = qobject_cast<ClientWorker *>(sender());
+    if (worker) {
+        int idx = clientWorkers.indexOf(worker);
+        if (idx >= 0) {
+            QThread *t = clientThreads.value(idx, nullptr);
+            QTcpSocket *s = clients.value(idx, nullptr);
+            clients.removeAt(idx);
+            clientWorkers.removeAt(idx);
+            clientThreads.removeAt(idx);
+            if (s)
+                s->deleteLater();
+            if (t) {
+                t->quit();
+                t->wait(100);
+                t->deleteLater();
+            }
+        }
         emit clientDisconnected();
     }
 }

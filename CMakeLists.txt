@@ -22,6 +22,7 @@ qt_add_qml_module(appTCPsv
     QML_FILES ScaleSerial.qml
     SOURCES ScaleInterface232.h ScaleInterface232.cpp
     SOURCES ScaleCommand.h
+    SOURCES ClientWorker.h ClientWorker.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

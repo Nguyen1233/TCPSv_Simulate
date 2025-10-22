@@ -94,13 +94,13 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 45,
+				"line" : 46,
 				"parent" : 0
 			},
 			{
 				"command" : 5,
 				"file" : 1,
-				"line" : 38,
+				"line" : 39,
 				"parent" : 0
 			},
 			{
@@ -776,14 +776,18 @@
 				8,
 				10,
 				13,
-				14,
+				15,
 				16,
-				17
+				18,
+				19
 			]
 		}
 	],
 	"dependencies" : 
 	[
+		{
+			"id" : "appTCPsv_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+		},
 		{
 			"backtrace" : 0,
 			"id" : "appTCPsv_autogen::@6890427a1f51a3e7e1df"
@@ -799,9 +803,6 @@
 		{
 			"backtrace" : 59,
 			"id" : "appTCPsv_qmlimportscan::@6890427a1f51a3e7e1df"
-		},
-		{
-			"id" : "appTCPsv_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "appTCPsv::@6890427a1f51a3e7e1df",
@@ -956,12 +957,13 @@
 				6,
 				8,
 				10,
-				12,
 				13,
 				14,
 				15,
 				16,
-				17
+				17,
+				18,
+				19
 			]
 		},
 		{
@@ -969,10 +971,8 @@
 			"sourceIndexes" : 
 			[
 				2,
-				19,
 				21,
-				31,
-				32,
+				23,
 				33,
 				34,
 				35,
@@ -981,7 +981,9 @@
 				38,
 				39,
 				40,
-				41
+				41,
+				42,
+				43
 			]
 		},
 		{
@@ -991,30 +993,31 @@
 				5,
 				7,
 				9,
-				11
+				11,
+				12
 			]
 		},
 		{
 			"name" : "Resources",
 			"sourceIndexes" : 
 			[
-				18,
-				20
+				20,
+				22
 			]
 		},
 		{
 			"name" : "CMake Rules",
 			"sourceIndexes" : 
 			[
-				22,
-				23,
 				24,
 				25,
 				26,
 				27,
 				28,
 				29,
-				30
+				30,
+				31,
+				32
 			]
 		}
 	],
@@ -1090,6 +1093,17 @@
 			"backtrace" : 70,
 			"path" : "ScaleCommand.h",
 			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 70,
+			"path" : "ClientWorker.h",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 70,
+			"compileGroupIndex" : 0,
+			"path" : "ClientWorker.cpp",
+			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 71,

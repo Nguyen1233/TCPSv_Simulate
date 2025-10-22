@@ -2,6 +2,82 @@
     {
         "classes": [
             {
+                "className": "ClientWorker",
+                "lineNumber": 7,
+                "object": true,
+                "qualifiedClassName": "ClientWorker",
+                "signals": [
+                    {
+                        "access": "public",
+                        "index": 0,
+                        "name": "finished",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 1,
+                        "name": "disconnected",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "data",
+                                "type": "QString"
+                            }
+                        ],
+                        "index": 2,
+                        "name": "dataReceived",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "data",
+                                "type": "QByteArray"
+                            }
+                        ],
+                        "index": 3,
+                        "name": "sendData",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 4,
+                        "name": "shutdown",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 5,
+                        "name": "onReadyRead",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 6,
+                        "name": "onDisconnected",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "ClientWorker.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
                 "className": "ScaleInterface232",
                 "lineNumber": 9,
                 "object": true,
@@ -88,8 +164,26 @@
                 ],
                 "slots": [
                     {
-                        "access": "private",
+                        "access": "public",
                         "index": 5,
+                        "name": "initializeSlot",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "frame",
+                                "type": "QString"
+                            }
+                        ],
+                        "index": 6,
+                        "name": "sendData",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "private",
+                        "index": 7,
                         "name": "handleReadyRead",
                         "returnType": "void"
                     },
@@ -101,7 +195,7 @@
                                 "type": "QSerialPort::SerialPortError"
                             }
                         ],
-                        "index": 6,
+                        "index": 8,
                         "name": "handleError",
                         "returnType": "void"
                     }
@@ -167,7 +261,7 @@
         "classes": [
             {
                 "className": "TcpServer",
-                "lineNumber": 15,
+                "lineNumber": 17,
                 "methods": [
                     {
                         "access": "public",
