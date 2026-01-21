@@ -32,6 +32,7 @@ public:
 
     QString serialStatus() const;
     void sendData(const QString &frame);
+    void sendData(const QByteArray &frame);
 
 signals:
     void weightReceived(double weight, const QString &unit);

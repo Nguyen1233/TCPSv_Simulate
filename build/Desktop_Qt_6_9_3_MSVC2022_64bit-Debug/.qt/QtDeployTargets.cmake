@@ -1,0 +1,3 @@
+set(__QT_DEPLOY_TARGET_appTCPsv_FILE C:/Users/lumma/OneDrive/Documents/TCPSv_Simulate1/build/Desktop_Qt_6_9_3_MSVC2022_64bit-Debug/appTCPsv.exe)
+set(__QT_DEPLOY_TARGET_appTCPsv_TYPE EXECUTABLE)
+set(__QT_DEPLOY_TARGET_appTCPsv_RUNTIME_DLLS C:/Qt/6.9.3/msvc2022_64/bin/Qt6Quickd.dll;C:/Qt/6.9.3/msvc2022_64/bin/Qt6SerialBusd.dll;C:/Qt/6.9.3/msvc2022_64/bin/Qt6QmlMetad.dll;C:/Qt/6.9.3/msvc2022_64/bin/Qt6QmlWorkerScriptd.dll;C:/Qt/6.9.3/msvc2022_64/bin/Qt6QmlModelsd.dll;C:/Qt/6.9.3/msvc2022_64/bin/Qt6Qmld.dll;C:/Qt/6.9.3/msvc2022_64/bin/Qt6OpenGLd.dll;C:/Qt/6.9.3/msvc2022_64/bin/Qt6Guid.dll;C:/Qt/6.9.3/msvc2022_64/bin/Qt6SerialPortd.dll;C:/Qt/6.9.3/msvc2022_64/bin/Qt6Networkd.dll;C:/Qt/6.9.3/msvc2022_64/bin/Qt6Cored.dll)

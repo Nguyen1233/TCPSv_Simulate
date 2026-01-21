@@ -14,7 +14,7 @@ ScaleInterface232::ScaleInterface232(const QString &portName, QObject *parent)
     serialPort->setPortName(portName);
     // Serial settings for A&D GF-1200 (per manual)
     serialPort->setBaudRate(QSerialPort::Baud9600);
-    serialPort->setDataBits(QSerialPort::Data7);
+    serialPort->setDataBits(QSerialPort::Data8);
     serialPort->setParity(QSerialPort::EvenParity);
     serialPort->setStopBits(QSerialPort::OneStop);
     serialPort->setFlowControl(QSerialPort::NoFlowControl);
@@ -274,7 +274,21 @@ QString ScaleInterface232::serialStatus() const
 
 void ScaleInterface232::sendData(const QString &frame)
 {
-    QByteArray data = frame.toLocal8Bit();
-    serialPort->write(data);
+    sendData(frame.toLocal8Bit());
+}
+
+void ScaleInterface232::sendData(const QByteArray &frame)
+{
+    if (!serialPort || !serialPort->isOpen()) {
+        handleScaleError(ScaleError::PortNotConnected, "Port not open");
+        emitStatusIfChanged(serialStatus());
+        return;
+    }
+    const qint64 bytesWritten = serialPort->write(frame);
+    if (bytesWritten == -1) {
+        handleScaleError(ScaleError::WriteError, serialPort->errorString());
+        emitStatusIfChanged(serialStatus());
+        return;
+    }
     serialPort->flush();
 }

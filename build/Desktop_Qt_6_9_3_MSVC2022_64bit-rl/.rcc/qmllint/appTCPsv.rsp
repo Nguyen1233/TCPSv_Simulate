@@ -1,0 +1,11 @@
+--bare
+-I
+C:/Users/lumma/OneDrive/Documents/TCPSv_Simulate1/build/Desktop_Qt_6_9_3_MSVC2022_64bit-rl
+-I
+C:/Qt/6.9.3/msvc2022_64/qml
+--resource
+C:/Users/lumma/OneDrive/Documents/TCPSv_Simulate1/build/Desktop_Qt_6_9_3_MSVC2022_64bit-rl/.qt/rcc/qmake_TCPsv.qrc
+--resource
+C:/Users/lumma/OneDrive/Documents/TCPSv_Simulate1/build/Desktop_Qt_6_9_3_MSVC2022_64bit-rl/.qt/rcc/appTCPsv_raw_qml_0.qrc
+C:/Users/lumma/OneDrive/Documents/TCPSv_Simulate1/main.qml
+C:/Users/lumma/OneDrive/Documents/TCPSv_Simulate1/ScaleSerial.qml

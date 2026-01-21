@@ -32,6 +32,8 @@ public:
     Q_INVOKABLE void stopFake1();
     Q_INVOKABLE void sendFrameFake2(int ms, const QString &w);
     Q_INVOKABLE void stopFake2();
+    Q_INVOKABLE void sendFrameFake3(int ms, const QString &w);
+    Q_INVOKABLE void stopFake3();
 
 signals:
     void clientConnected(QString address, int port);
@@ -46,11 +48,13 @@ private:
     // QTimer *responseSending;
     QTimer *timer1;
     QTimer *timer2;
+    QTimer *timer3;
     QByteArray frame1;
     QByteArray frame;
+    QByteArray frame2;
 
     QSerialPort *serialPort;
-    QPointer<ScaleInterface232> m_scales232[2] = {nullptr, nullptr};
+    QPointer<ScaleInterface232> m_scales232[3] = {nullptr, nullptr, nullptr};
 
     void sendZeroData(int u);
     void hookSignals(int idx);

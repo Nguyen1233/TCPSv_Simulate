@@ -1,0 +1,14 @@
+-rootPath
+C:/Users/lumma/OneDrive/Documents/TCPSv_Simulate1
+-cmake-output
+-output-file
+C:/Users/lumma/OneDrive/Documents/TCPSv_Simulate1/build/Desktop_Qt_6_9_3_MSVC2022_64bit-rl/.qt/qml_imports/appTCPsv_build.cmake
+-importPath
+C:/Users/lumma/OneDrive/Documents/TCPSv_Simulate1/build/Desktop_Qt_6_9_3_MSVC2022_64bit-rl/TCPsv
+-importPath
+C:/Users/lumma/OneDrive/Documents/TCPSv_Simulate1/build/Desktop_Qt_6_9_3_MSVC2022_64bit-rl
+-importPath
+C:/Qt/6.9.3/msvc2022_64/qml
+-qrcFiles
+C:/Users/lumma/OneDrive/Documents/TCPSv_Simulate1/build/Desktop_Qt_6_9_3_MSVC2022_64bit-rl/.qt/rcc/qmake_TCPsv.qrc
+C:/Users/lumma/OneDrive/Documents/TCPSv_Simulate1/build/Desktop_Qt_6_9_3_MSVC2022_64bit-rl/.qt/rcc/appTCPsv_raw_qml_0.qrc

@@ -1,0 +1,6 @@
+module TCPsv
+typeinfo appTCPsv.qmltypes
+prefer :/TCPsv/
+ScaleSerial 1.0 ScaleSerial.qml
+depends QtQuick
+

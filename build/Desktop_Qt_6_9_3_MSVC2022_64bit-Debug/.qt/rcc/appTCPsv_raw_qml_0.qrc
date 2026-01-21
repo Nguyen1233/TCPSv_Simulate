@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="/TCPsv/">
+    <file alias="main.qml">C:/Users/lumma/OneDrive/Documents/TCPSv_Simulate1/main.qml</file>
+    <file alias="ScaleSerial.qml">C:/Users/lumma/OneDrive/Documents/TCPSv_Simulate1/ScaleSerial.qml</file>
+  </qresource>
+</RCC>
+

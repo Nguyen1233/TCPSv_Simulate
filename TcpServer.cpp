@@ -7,6 +7,7 @@ TcpServer::TcpServer(QObject *parent)
     , sendTimer(new QTimer(this))
     , timer1(new QTimer(this))
     , timer2(new QTimer(this))
+    , timer3(new QTimer(this))
 {
     serialPort = new QSerialPort(this);
     connect(server, &QTcpServer::newConnection, this, &TcpServer::onNewConnection);
@@ -78,6 +79,9 @@ void TcpServer::sendRespWeightTest()
 
 void TcpServer::applySerialParams(const QString &portName, int idx)
 {
+    if (idx < 0 || idx >= 3)
+        return;
+
     m_scales232[idx] = new ScaleInterface232(portName, this);
     m_scales232[idx]->applySerialParams(QSerialPort::Baud9600,
                                         QSerialPort::Data7,
@@ -93,10 +97,11 @@ void TcpServer::applySerialParams(const QString &portName, int idx)
 
 void TcpServer::sendFrameFake1(int ms, const QString &w)
 {
-    // timer1 = new QTimer(this);
-    // timer1->setInterval(ms);
     frame = QString("ST,+%1 g\r\n").arg(w).toUtf8();
+    if (ms > 0)
+        timer1->setInterval(ms);
     timer1->start();
+    m_scales232[0]->sendData(frame);
 }
 
 void TcpServer::stopFake1()
@@ -110,33 +115,55 @@ void TcpServer::stopFake1()
 
 void TcpServer::sendFrameFake2(int ms, const QString &w)
 {
-    // timer2 = new QTimer(this);
-    // timer2->setInterval(ms);
     frame1 = QString("020202+000.220ST,GS,+%1 kg\r\n").arg(w).toUtf8();
+    if (ms > 0)
+        timer2->setInterval(ms);
     timer2->start();
+    m_scales232[1]->sendData(frame1);
 }
 
 void TcpServer::stopFake2()
 {
     if (timer2->isActive()) {
-        sendZeroData(8);
+        sendZeroData(1);
         timer2->stop();
     }
     // delete timer2;
 }
 
+void TcpServer::sendFrameFake3(int ms, const QString &w)
+{
+    frame2 = QString("030303+000.330ST,GS,+%1 kg\r\n").arg(w).toUtf8();
+    if (ms > 0)
+        timer3->setInterval(ms);
+    timer3->start();
+    m_scales232[2]->sendData(frame2);
+}
+
+void TcpServer::stopFake3()
+{
+    if (timer3->isActive()) {
+        sendZeroData(2);
+        timer3->stop();
+    }
+}
+
 void TcpServer::sendZeroData(int u)
 {
-    QByteArray frame;
+    if (u < 0 || u >= 3)
+        return;
+
+    QByteArray zeroFrame;
     if (u == 0) {
-        frame = "ST,+0 g\r\n";
-        m_scales232[0]->sendData(frame);
+        zeroFrame = "ST,+0 g\r\n";
     } else {
-        frame = "020202+000.220ST,GS,+0 kg\r\n";
-        m_scales232[1]->sendData(frame);
+        zeroFrame = "020202+000.220ST,GS,+0 kg\r\n";
     }
 
-    qDebug() << "[FakeScale1] Sent:" << frame;
+    if (m_scales232[u])
+        m_scales232[u]->sendData(zeroFrame);
+
+    qDebug() << "[FakeScale" << (u + 1) << "] Sent:" << zeroFrame;
 }
 
 void TcpServer::hookSignals(int idx)
@@ -157,24 +184,35 @@ void TcpServer::hookSignals(int idx)
                      [this, idx](double w, const QString &u) {
 
                      });
-    timer1->setInterval(400);
-    connect(timer1, &QTimer::timeout, this, [this]() {
-        // frame = "ST,+2000 g\r\n"; // chuỗi mô phỏng cân
-        // m_scales232[]->write(frame);
-        m_scales232[0]->sendData(frame);
-        // serialPort->flush();
-        qDebug() << "[FakeScale1] Sent:" << frame;
-    });
 
-    timer2->setInterval(400);
-    connect(timer2, &QTimer::timeout, this, [this]() {
-        // frame1 = "020202+000.220ST,GS,+5 kg\r\n"; // chuỗi mô phỏng cân
-        // serialPort->write(frame);
-        // serialPort->flush();
-        m_scales232[1]->sendData(frame1);
-        // serialPort->flush();
-        qDebug() << "[FakeScale2] Sent:" << frame1;
-    });
+    switch (idx) {
+    case 0:
+        timer1->setInterval(400);
+        connect(timer1, &QTimer::timeout, this, [this]() {
+            if (m_scales232[0])
+                m_scales232[0]->sendData(frame);
+            qDebug() << "[FakeScale1] Sent:" << frame;
+        }, Qt::UniqueConnection);
+        break;
+    case 1:
+        timer2->setInterval(400);
+        connect(timer2, &QTimer::timeout, this, [this]() {
+            if (m_scales232[1])
+                m_scales232[1]->sendData(frame1);
+            qDebug() << "[FakeScale2] Sent:" << frame1;
+        }, Qt::UniqueConnection);
+        break;
+    case 2:
+        timer3->setInterval(400);
+        connect(timer3, &QTimer::timeout, this, [this]() {
+            if (m_scales232[2])
+                m_scales232[2]->sendData(frame2);
+            qDebug() << "[FakeScale3] Sent:" << frame2;
+        }, Qt::UniqueConnection);
+        break;
+    default:
+        break;
+    }
 }
 
 void TcpServer::sendDataTimerTriggered()
